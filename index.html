@@ -167,6 +167,54 @@
 
   /* Toolbar */
   .toolbar{ display:flex; gap:.5rem; justify-content:flex-end; margin:.2rem 0 .8rem; }
+    :root {
+  --logo-color: #73CFD9; /* 로고 색상 */
+}
+
+/* 배경 로고 */
+body {
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 12vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(900px, 72vw);
+  height: min(900px, 72vw);
+
+  /* 로고를 한 색으로 칠하기 */
+  background: var(--logo-color); /* 채울 색상 */
+  -webkit-mask-image: url('inaekkum-logo.png');
+  mask-image: url('inaekkum-logo.png'); /* PNG 경로 */
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  opacity: 0.08; /* 투명도 */
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 콘텐츠가 항상 위에 오도록 */
+.wrap,
+header,
+main,
+footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* 다크모드일 때 조금 더 진하게 */
+[data-theme="dark"] body::before {
+  opacity: 0.10;
+}
+
 </style>
 </head>
 <body>
