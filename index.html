@@ -10,66 +10,70 @@
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
 
-  <style>
+ <style>
   /* ===== Ingest UI (Hidden by default) ===== */
   #ingest { display: none !important; }
 
   /* ===== Color System (Inaekkum Library) ===== */
   :root{
-  /* Surfaces */
-  --bg:#F9FCFD;        /* 하얀에 가까운 청백색 배경 */
-  --card:#FFFFFF;      /* 카드 영역 */
-  --line:#D7EBEE;      /* 옅은 하늘빛 라인 */
+    /* Surfaces */
+    --bg:#F9FCFD;        /* 하얀에 가까운 청백색 배경 */
+    --card:#FFFFFF;      /* 카드 영역 */
+    --line:#D7EBEE;      /* 옅은 하늘빛 라인 */
 
-  /* Text */
-  --fg:#1C1E1F;        /* 본문 글자 (짙은 회청색) */
-  --muted:#667072;     /* 부가 설명용, 중명도 회색 */
+    /* Text */
+    --fg:#1C1E1F;        /* 본문 글자 */
+    --muted:#667072;     /* 부가 설명용 */
 
-  /* Accents */
-  --accent:#73CFD9;    /* 주된 포인트: 틸 블루 */
-  --accent-2:#4AA9BA;  /* 보조 포인트: 청록톤 */
-  --accent-3:#F4C70F;  /* 대비용 노랑 (선택적으로 사용) */
+    /* Accents */
+    --accent:#73CFD9;    /* 주된 포인트: 틸 블루 */
+    --accent-2:#4AA9BA;  /* 보조 포인트 */
+    --accent-3:#F4C70F;  /* 대비용 노랑 */
 
-  /* Utility */
-  --highlight:#E7FBFF; /* 텍스트 선택·하이라이트 */
-  --tone-amber:#BFA454; /* 따뜻한 포인트 남기기 */
-  --tone-olive:#8C7737; /* 아카이브 감의 고색조 */
+    /* Utility */
+    --highlight:#E7FBFF;
+    --tone-amber:#BFA454;
+    --tone-olive:#8C7737;
 
-  /* Readability */
-  --accent-contrast:#FFFFFF;
-  --inverse:#FAFAFA;
+    /* Readability */
+    --accent-contrast:#FFFFFF;
+    --inverse:#FAFAFA;
 
-  /* Shape & Shadow */
-  --radius:14px;
-  --shadow:0 6px 18px rgba(25, 45, 55, .08), 0 2px 6px rgba(25, 45, 55, .05);
+    /* Shape & Shadow */
+    --radius:14px;
+    --shadow:0 6px 18px rgba(25,45,55,.08), 0 2px 6px rgba(25,45,55,.05);
 
-  /* Mono stack */
-  --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-}
+    /* Mono stack */
+    --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 
-/* 다크모드 (시안빛 유지) */
-[data-theme="dark"]{
-  --bg:#0E1618;
-  --card:#121D21;
-  --line:#1F2E33;
+    /* Logo color */
+    --logo-color:#73CFD9;
+  }
 
-  --fg:#EAF6F8;
-  --muted:#9DB6BB;
+  /* 다크모드 */
+  [data-theme="dark"]{
+    --bg:#0E1618;
+    --card:#121D21;
+    --line:#1F2E33;
 
-  --accent:#73CFD9;
-  --accent-2:#A6E3EA;
-  --accent-3:#F2CD5C;
+    --fg:#EAF6F8;
+    --muted:#9DB6BB;
 
-  --highlight:rgba(115,207,217,.15);
-  --accent-contrast:#0E1618;
-  --inverse:#EAF6F8;
+    --accent:#73CFD9;
+    --accent-2:#A6E3EA;
+    --accent-3:#F2CD5C;
 
-  --shadow:0 8px 22px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
-}
+    --highlight:rgba(115,207,217,.15);
+    --accent-contrast:#0E1618;
+    --inverse:#EAF6F8;
+
+    --shadow:0 8px 22px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
+  }
 
   /* ===== Base ===== */
   *{ box-sizing:border-box; }
   html{ scroll-behavior:smooth; }
+  html, body { height:100%; }
   body{
     margin:0;
     background:var(--bg);
@@ -77,6 +81,7 @@
     font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
     -webkit-text-size-adjust:100%;
     font-weight:400;
+    position:relative;   /* 배경 로고 기준점 */
   }
   a{ color:var(--accent); text-decoration:none; }
   a:hover{ text-decoration:underline; }
@@ -98,11 +103,16 @@
 
   /* ===== Navigation / TOC ===== */
   nav[aria-label="문서 목차"]{
-    position:sticky; top:70px; align-self:start;
+    position:sticky;
+    top:70px;
+    align-self:start;
+    max-height:calc(100vh - 90px); /* 뷰포트 안에서 고정 */
+    overflow:auto;                 /* 길어지면 내부 스크롤 */
     background:var(--card);
     border:1px solid var(--line);
     border-radius:var(--radius);
     box-shadow:var(--shadow);
+    will-change:transform;
   }
   .navbox{ padding:.9rem; }
   .navbox h2{ margin:.15rem 0 .6rem; font-size:.9rem; color:var(--muted); letter-spacing:.05em; }
@@ -134,7 +144,12 @@
   tbody tr:hover{ background:#fffdfc; }
 
   /* Buttons */
-  .btn{ display:inline-block; padding:.5rem .9rem; border-radius:.6rem; background:var(--accent); color:var(--accent-contrast); box-shadow:var(--shadow); font-weight:700; transition:transform .2s ease, box-shadow .2s ease; }
+  .btn{
+    display:inline-block; padding:.5rem .9rem; border-radius:.6rem;
+    background:var(--accent); color:var(--accent-contrast);
+    box-shadow:var(--shadow); font-weight:700;
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
   .btn:hover{ transform:translateY(-1px); text-decoration:none; }
 
   /* Lyrics / Quotes */
@@ -142,8 +157,17 @@
     white-space:pre-wrap; font-family:var(--mono); font-size:.92rem;
     background:#fffdfc; border:1px solid var(--line); padding:.8rem; border-radius:.5rem; line-height:1.75; color:var(--fg);
   }
-  blockquote{ margin:1rem 0; padding:.9rem; background:var(--line); border-left:4px solid var(--accent); border-radius:0 .5rem .5rem 0; }
+
+  /* blockquote 개선: 줄바꿈, byline */
+  blockquote{
+    text-align:center; font-style:italic; color:#3a3a3a; line-height:1.7;
+    white-space:pre-line; margin:1rem 0; padding:.9rem;
+    background:var(--line); border-left:4px solid var(--accent); border-radius:0 .5rem .5rem 0;
+  }
+  blockquote .byline{ display:block; margin-top:.5rem; font-style:normal; color:var(--muted); }
+
   .credit-note{ font-size:.9rem; color:var(--muted); background:var(--line); padding:1rem; border-radius:.6rem; margin-top:1rem; }
+  .small-note{ display:block; margin-top:.25rem; color:var(--muted); }
 
   footer{ margin:2rem 0; text-align:center; color:var(--muted); font-size:.9rem; }
 
@@ -167,81 +191,38 @@
 
   /* Toolbar */
   .toolbar{ display:flex; gap:.5rem; justify-content:flex-end; margin:.2rem 0 .8rem; }
-    :root {
-  --logo-color: #73CFD9; /* 로고 색상 */
-}
 
-/* === Inaekkum watermark fix === */
-
-/* 1) 색 변수 정의 (#73CFD9) */
-:root{ --logo-color:#73CFD9; }
-
-/* 2) 파일 경로 점검용(필요시 바꿔주세요)
-   - 같은 폴더면 'inaekkum-logo.png'
-   - 예: /assets/inaekkum-logo.png 로 쓰는 경우 아래 두 줄 모두 경로를 동일하게 바꿔야 함
-*/
-
-/* 3) 기본 설정 */
-html, body { height:100%; }
-body { position: relative; }
-
-/* 4) 마스크 방식(지원 브라우저) */
-@supports (mask-image: url("")) or (-webkit-mask-image: url("")) {
-body::before {
-  content: "";
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* 정확히 중앙 배치 */
-  width: 60vw;    /* 화면 너비의 60% */
-  height: 60vw;   /* 정사각형 비율 유지 */
-
-  /* 로고 색상 및 마스크 설정 */
-  background: var(--logo-color);
-  -webkit-mask-image: url('inaekkum-logo.png');
-  mask-image: url('inaekkum-logo.png');
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-
-  opacity: 0.08; /* 투명도 (조절 가능) */
-  pointer-events: none;
-  z-index: 0;
-}
-}
-
-/* 5) 마스크 미지원 브라우저 대비(대체 이미지가 있을 때) */
-@supports not (mask-image: url("")) {
-  body::before{
-    content:"";
-    position: fixed;
-    top: 12vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(900px, 72vw);
-    height: min(900px, 72vw);
-
-    /* 틸 색으로 이미지를 미리 칠해둔 PNG/SVG가 있다면 아래 경로로 교체 */
-    background-image: url('inaekkum-logo-teal.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-
-    opacity: .08;
-    pointer-events: none;
-    z-index: 0;
+  /* ===== Watermark (centered, 60% width) ===== */
+  @supports (mask-image: url("")) or (-webkit-mask-image: url("")){
+    body::before{
+      content:"";
+      position:fixed; z-index:0; pointer-events:none;
+      top:50%; left:50%; transform:translate(-50%,-50%);
+      width:60vw; height:60vw; /* 페이지의 60% */
+      background:var(--logo-color);
+      -webkit-mask-image:url('inaekkum-logo.png');
+      mask-image:url('inaekkum-logo.png');
+      -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+      -webkit-mask-position:center; mask-position:center;
+      -webkit-mask-size:contain; mask-size:contain;
+      opacity:.08;
+    }
   }
-}
+  @supports not (mask-image: url("")){
+    body::before{
+      content:"";
+      position:fixed; z-index:0; pointer-events:none;
+      top:10vh; left:50%; transform:translateX(-50%);
+      width:min(1200px,60vw); height:min(1200px,60vw);
+      background:url('inaekkum-logo-teal.png') center/contain no-repeat;
+      opacity:.08;
+    }
+  }
 
-/* 6) 콘텐츠가 로고보다 위에 오도록(겹침 순서 명시) */
-header, main, nav[aria-label="문서 목차"], .card {
-  position: relative;
-  z-index: 1;
-}
+  /* 워터마크 뒤로 밀기 */
+  header, main, nav[aria-label="문서 목차"], .card{ position:relative; z-index:1; }
 </style>
+  
 </head>
 <body>
   <a class="sr-only" href="#main">본문 바로가기</a>
@@ -732,10 +713,7 @@ I'm looking for your light</pre>
   </div>
 </details>
 
-         <details class="fold">
-  <summary class="fold-head">『발현 (EP)』 (2022)</summary>
-  <div class="fold-body">
-
+<<h3>『발현 (EP)』 (2022)</h3>
     <pre class="lyrics">
 Track 02
 Time Train｜4' 40"
@@ -949,7 +927,6 @@ Track 06
 닿을 수 있을까요
 닿을 수 있을까요
     </pre>
-
     <pre class="lyrics">
 [크레딧]
 
@@ -1036,9 +1013,6 @@ CREDIT
 
 PUBLISHED BY BISCUIT SOUND
     </pre>
-
-  </div>
-</details>
 
           <h3>『용가리도 하늘을 날고 싶어』 (더블 싱글, 2021)</h3>
 
@@ -1187,9 +1161,9 @@ Cuz time is running out
 그대는 내게 보다 자욱한 추억이 되어가고 있어요
 영화처럼
 </pre>
-         <details>
-  <summary>『4월과 11월』</summary>
-  <pre class="lyrics">
+
+<h3>『4월과 11월』</h3>
+<pre class="lyrics">
 나는 섬의 심장
 너는 뭍의 심장
 나는 파도보다 높은
@@ -1220,7 +1194,7 @@ Cuz time is running out
 나와 너
   </pre>
 
-  <pre class="lyrics">
+<pre class="lyrics">
 [크레딧]
 
 4월과 11월
@@ -1255,14 +1229,10 @@ Cuz time is running out
 다채로운 장르로 각기 다른 전태일을 노래합니다.
 이 소박한 콘서트 속에 오늘 날의 전태일이 살아 숨 쉽니다.
   </pre>
-</details>
 
 
-       <details class="fold">
-  <summary class="fold-head">『꽃길』</summary>
-  <div class="fold-body">
-
-    <pre class="lyrics">
+<h3>『꽃길』</h3>
+<pre class="lyrics">
 걸어온 시간만큼 우리는 함께 했었던가요
 떠나간 시간만큼 우린 참 많이도 함께했죠
 
@@ -1307,26 +1277,29 @@ Cuz time is running out
 재생 시간  04:26
     </pre>
 
-  </div>
-</details>
-
         <section id="interview" class="card">
           <h2>인터뷰 요약</h2>
           <p>초기 활동명 ‘이리와 내 꿈에 태워줄게’는 프로게이머 ‘몽상가(강민)’의 팬픽 문장에서 영감을 얻었으며, 창의성과 진심을 담은 선언이었다. 팬들이 붙여준 약칭 ‘이내꿈’은 “곧, 가까이에 있는 꿈”이라는 의미를 더하며 현재의 이름이 되었다.</p>
           <p>이들은 “우리 같은 사람들도 이룰 수 있다면, 당신도 할 수 있다”는 메시지를 통해 지친 사람들에게 현실적인 용기와 공감을 전하고자 한다. 대구를 ‘집’과 같은 공간으로 여기며, 지역 씬을 가꾸는 주체로서의 정체성을 중요하게 생각한다.</p>
-         <blockquote>
-  “대구는 집 같아요. 조금 불편하지만 따뜻하고, 예술가들이 서로에게 힘을 주는 곳이에요.  
-  우린 이 도시를 가꾸는 사람이고 싶어요.”  
-  <br>- 민우석
+<blockquote>
+대구는 집 같아요. 조금 불편하지만 따뜻하고, 예술가들이 서로에게 힘을 주는 곳이에요.
+우린 이 도시를 가꾸는 사람이고 싶어요.
+<span class="byline">— 민우석</span>
 </blockquote>
           <p>D-Rookie Festa 대상 수상은 “우린 할 수 있다”는 확신을 심어준 중요한 순간이었으며, 멤버들은 서로의 다름에서 영감을 얻고, 관객과의 소통을 활동의 가장 큰 원동력으로 꼽는다.</p>
           
           <h4>죽기 전에 마지막으로 듣고 싶은 노래</h4>
           <ul>
-            <li><strong>민우석:</strong> Chet Atkins – 「I Still Can’t Say Goodbye」 — “떠나간 사람을 위해 마지막으로 부르고 싶어요.”</li>
-            <li><strong>김태양:</strong> 쏜애플 – 「이유」 — “모두가 외로움을 느낀다는 걸 표현한 곡이에요.”</li>
-            <li><strong>최원민:</strong> 아이유 – 「무릎」 — “편안히 잠들 수 있는 노래죠.”</li>
-          </ul>
+  <li><strong>민우석:</strong> Chet Atkins – 「I Still Can’t Say Goodbye」
+    <span class="small-note">“떠나간 사람을 위해 마지막으로 부르고 싶어요.”</span>
+  </li>
+  <li><strong>김태양:</strong> 쏜애플 – 「이유」
+    <span class="small-note">“모두가 외로움을 느낀다는 걸 표현한 곡이에요.”</span>
+  </li>
+  <li><strong>최원민:</strong> 아이유 – 「무릎」
+    <span class="small-note">“편안히 잠들 수 있는 노래죠.”</span>
+  </li>
+</ul>
         </section>
 
         <section id="philosophy" class="card">
@@ -1369,88 +1342,96 @@ Cuz time is running out
   </div>
 
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    /* ===== 1) TOC 활성화 (원래 기능 유지) ===== */
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.toc-item');
-    if (sections.length && navLinks.length) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            navLinks.forEach(link => {
-              link.removeAttribute('aria-current');
-              if (link.getAttribute('href') === `#${entry.target.id}`) {
-                link.setAttribute('aria-current', 'true');
-              }
-            });
-          }
-        });
-      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
-      sections.forEach(section => observer.observe(section));
-    }
+document.addEventListener('DOMContentLoaded', () => {
+  /* ===== 1) TOC 활성화 ===== */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.toc-item');
+  if (sections.length && navLinks.length) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.removeAttribute('aria-current');
+            if (link.getAttribute('href') === `#${entry.target.id}`) {
+              link.setAttribute('aria-current', 'true');
+            }
+          });
+        }
+      });
+    }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+  }
 
-    /* ===== 2) 가사/크레딧 자동 접기/펼치기 =====
-       - 기존 마크업 수정不要.
-       - 모든 .lyrics 를 details.fold로 감싸 summary 생성
-       - #lyrics 안의 긴 .note(크레딧 추정)도 접기 처리
-    */
-    const hLabel = (el) => {
-      // 바로 위쪽의 h4>h1 순으로 탐색하여 제목 추출
-      const prev = [...document.querySelectorAll('h4, h3, h2, h1')]
+  /* ===== 2) 가사/크레딧 자동 접기/펼치기 (개선판) =====
+     - pre.lyrics 1개(+바로 뒤 [크레딧] pre) = 1개의 <details.fold>
+     - 바로 위 제목(h1~h4)을 summary로 옮기고 원래 제목은 제거 → 중복 방지
+     - 이미 details.fold 안인 pre는 건드리지 않음
+  */
+  (function () {
+    const headingSel = 'h4, h3, h2, h1';
+
+    const closestHeadingAbove = (el) => {
+      const heads = Array.from(document.querySelectorAll(headingSel))
         .filter(h => h.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)
-        .filter(h => h.offsetTop <= el.offsetTop)
-        .pop();
-      return prev ? prev.textContent.trim() : '가사';
+        .filter(h => h.offsetTop <= el.offsetTop);
+      return heads.pop() || null;
     };
 
-    const wrapInDetails = (el, summaryText) => {
-      if (el.closest('details.fold')) return; // 이미 감싼 경우 skip
+    const makeFold = (titleText, nodes) => {
       const det = document.createElement('details');
       det.className = 'fold';
       const sum = document.createElement('summary');
       sum.className = 'fold-head';
-      sum.textContent = summaryText;
+      sum.textContent = titleText.replace(/\s+/g,' ').trim();
       const body = document.createElement('div');
       body.className = 'fold-body';
-      el.parentNode.insertBefore(det, el);
-      det.appendChild(sum);
-      det.appendChild(body);
-      body.appendChild(el);
+      det.append(sum, body);
+      nodes[0].parentNode.insertBefore(det, nodes[0]);
+      nodes.forEach(n => body.appendChild(n));
       return det;
     };
 
-    // 가사(.lyrics) 자동 래핑
-    document.querySelectorAll('pre.lyrics').forEach((pre, idx) => {
-      const label = hLabel(pre);
-      wrapInDetails(pre, label.replace(/\s+/g,' ').trim());
+    const done = new WeakSet();
+
+    document.querySelectorAll('pre.lyrics').forEach((pre) => {
+      if (done.has(pre)) return;
+      if (pre.closest('details.fold')) return; // 이미 수동 래핑된 영역 패스
+
+      const group = [pre];
+      const next = pre.nextElementSibling;
+      if (next && next.matches('pre.lyrics') && /^\s*\[크레딧]/.test(next.textContent || '')) {
+        group.push(next);
+      }
+
+      const heading = closestHeadingAbove(pre);
+      const title = heading ? heading.textContent : '가사';
+      const fold = makeFold(title, group);
+
+      if (heading && heading.nextElementSibling === fold) {
+        heading.remove(); // 중복 제목 제거
+      }
+
+      group.forEach(n => done.add(n));
     });
 
-    // 크레딧(.note) 자동 래핑: #lyrics 섹션 내부의 긴 노트 텍스트
+    // #lyrics 툴바
     const lyricsSection = document.querySelector('#lyrics');
-    if (lyricsSection) {
-      lyricsSection.querySelectorAll('.note, .credit-note, p.note').forEach(note => {
-        const text = note.textContent || '';
-        if (text.length > 300 && !note.closest('details.fold')) {
-          wrapInDetails(note, '크레딧 / 앨범 정보');
-        }
-      });
-
-      // 툴바(모두 펼치기/접기) 주입
+    if (lyricsSection && !lyricsSection.querySelector('.toolbar')) {
       const toolbar = document.createElement('div');
       toolbar.className = 'toolbar';
-      toolbar.setAttribute('aria-label','가사/크레딧 보기 제어');
+      toolbar.setAttribute('aria-label', '가사/크레딧 보기 제어');
       toolbar.innerHTML = `
         <button class="btn" id="expand-all" type="button">모두 펼치기</button>
         <button class="btn" id="collapse-all" type="button" style="background:var(--accent-2);color:var(--fg)">모두 접기</button>
       `;
       const h2 = lyricsSection.querySelector('h2');
       (h2?.after) ? h2.after(toolbar) : lyricsSection.prepend(toolbar);
-
       const allDetails = () => Array.from(lyricsSection.querySelectorAll('details.fold'));
       toolbar.querySelector('#expand-all')?.addEventListener('click', () => allDetails().forEach(d => d.open = true));
       toolbar.querySelector('#collapse-all')?.addEventListener('click', () => allDetails().forEach(d => d.open = false));
     }
-  });
+  })();
+});
 </script>
 </body>
 </html>
