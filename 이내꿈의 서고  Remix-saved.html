@@ -11,110 +11,162 @@
   <meta name="twitter:card" content="summary" />
 
   <style>
-    /* ===== Ingest UI (Hidden by default) ===== */
-    #ingest { display: none !important; }
+  /* ===== Ingest UI (Hidden by default) ===== */
+  #ingest { display: none !important; }
 
-    /* ===== Color System ===== */
-    :root {
-      --bg: #ffdbcb;
-      --fg: #413a37;
-      --muted: #503528;
-      --line: #ffede6;
-      --accent: #672800;
-      --card: #fff8f6;
-      --radius: 14px;
-      --shadow: 0 6px 18px rgba(80, 53, 40, .08), 0 2px 6px rgba(80, 53, 40, .06);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-    }
+  /* ===== Color System (Inaekkum Library) ===== */
+  :root{
+    /* Surfaces */
+    --bg:#FFF9ED;        /* warm paper background */
+    --card:#FFFFFF;      /* content cards */
+    --line:#D9C8A9;      /* subtle borders/dividers */
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--fg);
-      font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Apple SD Gothic Neo, Arial, sans-serif;
-      -webkit-text-size-adjust: 100%;
-      font-weight: 400;
-    }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    /* Text */
+    --fg:#222426;        /* primary text */
+    --muted:#8C644D;     /* secondary text/captions */
 
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
-    header {
-      position: sticky; top: 0; z-index: 10;
-      background: rgba(255, 219, 203, 0.8);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: saturate(1.1) blur(4px);
-    }
-    .top { display: flex; justify-content: space-between; align-items: center; gap: .8rem; padding: .5rem 0; }
-    .brand { font-weight: 800; font-size: 1.1rem; color: var(--accent); }
-    .note { color: var(--muted); font-size: .9rem; }
+    /* Accents */
+    --accent:#D96236;    /* rust orange */
+    --accent-2:#F4C70F;  /* ochre yellow */
+    --accent-3:#73CFD9;  /* teal */
 
-    main { display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; margin-top: 1.5rem; }
-    @media (max-width: 980px) {
-      main { grid-template-columns: 1fr; }
-      nav[aria-label="문서 목차"] { position: static; }
-    }
+    /* Utility */
+    --highlight:#CDFFF0; /* selection/notice bg */
+    --tone-amber:#A67233;
+    --tone-olive:#8C7737;
 
-    /* ===== Navigation / TOC ===== */
-    nav[aria-label="문서 목차"] {
-      position: sticky; top: 70px; align-self: start;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .navbox { padding: .9rem; }
-    .navbox h2 { margin: .15rem 0 .6rem; font-size: .9rem; color: var(--muted); letter-spacing: 0.05em; }
-    .toc-item {
-      display: block; padding: .5rem .6rem; border-radius: .6rem; font-weight: 700; color: var(--fg);
-      transition: background .2s ease, color .2s ease;
-    }
-    .toc-item:hover { background: var(--line); }
-    .toc-item[aria-current="true"] {
-      background: var(--accent); color: var(--card);
-    }
+    /* Readability helpers */
+    --accent-contrast:#FFFFFF;
+    --inverse:#FAFAFA;
 
-    /* ===== Content Cards & Elements ===== */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 1.2rem 1.5rem;
-      box-shadow: var(--shadow);
-      margin-bottom: 1.5rem;
-    }
-    section[id] { scroll-margin-top: 86px; }
-    h1, h2, h3, h4 { margin: .2rem 0 1rem; font-weight: 800; color: var(--accent); }
-    h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; } h3 { font-size: 1.2rem; } h4 { font-size: 1.1rem; }
-    p, ul, ol { margin-bottom: 1rem; }
-    ul { list-style-position: inside; }
-    blockquote { margin: 1rem 0; padding: 1rem; background: var(--line); border-left: 4px solid var(--accent); border-radius: 0 .6rem .6rem 0; }
-    
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: .75rem .5rem; border-top: 1px solid var(--line); vertical-align: top; text-align: left; }
-    th { font-weight: 700; color: var(--muted); width: 100px; }
-    tbody tr:hover { background: #fffdfc; }
+    /* Shape & Shadow */
+    --radius:14px;
+    --shadow:0 6px 18px rgba(34,36,38,.08), 0 2px 6px rgba(34,36,38,.06);
 
-    .btn {
-      display: inline-block; padding: .6rem 1rem; border-radius: .7rem;
-      background: var(--accent); color: var(--card);
-      box-shadow: var(--shadow); font-weight: 700;
-      transition: transform .2s ease, box-shadow .2s ease;
-    }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(80, 53, 40, .12); text-decoration: none; }
+    /* Mono stack */
+    --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  }
 
-    .lyrics {
-      white-space: pre-wrap; font-family: var(--mono); font-size: .95rem;
-      background: #fffdfc; border: 1px solid var(--line); padding: 1rem; border-radius: .6rem; color: var(--fg);
-      line-height: 1.8;
-    }
-    .credit-note { font-size: 0.9rem; color: var(--muted); background: var(--line); padding: 1rem; border-radius: .6rem; margin-top: 1rem; }
+  /* Dark Theme (optional): <html data-theme="dark"> */
+  [data-theme="dark"]{
+    --bg:#262014;
+    --card:#222426;
+    --line:#594A1D;
+    --fg:#FAFAFA;
+    --muted:#D9C8A9;
 
-    footer { margin: 2rem 0; text-align: center; color: var(--muted); font-size: .9rem; }
-  </style>
+    --accent:#F4C70F;   /* swap: yellow primary in dark */
+    --accent-2:#D96236;
+    --accent-3:#73CFD9;
+
+    --highlight:rgba(205,255,240,.1);
+    --accent-contrast:#222426;
+    --inverse:#FFF9ED;
+
+    --shadow:0 8px 22px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
+  }
+
+  /* ===== Base ===== */
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--fg);
+    font:16px/1.7 system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+    -webkit-text-size-adjust:100%;
+    font-weight:400;
+  }
+  a{ color:var(--accent); text-decoration:none; }
+  a:hover{ text-decoration:underline; }
+  .sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+
+  .wrap{ max-width:1100px; margin:0 auto; padding:1rem; }
+  header{
+    position:sticky; top:0; z-index:10;
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    border-bottom:1px solid var(--line);
+    backdrop-filter:saturate(1.1) blur(4px);
+  }
+  .top{ display:flex; justify-content:space-between; align-items:center; gap:.8rem; padding:.5rem 0; }
+  .brand{ font-weight:800; font-size:1.1rem; color:var(--accent); }
+  .note{ color:var(--muted); font-size:.9rem; }
+
+  main{ display:grid; grid-template-columns:260px 1fr; gap:1.5rem; margin-top:1.5rem; }
+  @media (max-width:980px){ main{ grid-template-columns:1fr; } nav[aria-label="문서 목차"]{ position:static; } }
+
+  /* ===== Navigation / TOC ===== */
+  nav[aria-label="문서 목차"]{
+    position:sticky; top:70px; align-self:start;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+  }
+  .navbox{ padding:.9rem; }
+  .navbox h2{ margin:.15rem 0 .6rem; font-size:.9rem; color:var(--muted); letter-spacing:.05em; }
+  .toc-item{
+    display:block; padding:.5rem .6rem; border-radius:.6rem; font-weight:700; color:var(--fg);
+    transition:background .2s ease,color .2s ease;
+  }
+  .toc-item:hover{ background:var(--line); }
+  .toc-item[aria-current="true"]{ background:var(--accent); color:var(--card); }
+
+  /* ===== Cards & Typography ===== */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:1.1rem 1.3rem;
+    box-shadow:var(--shadow);
+    margin-bottom:1.2rem;
+  }
+  section[id]{ scroll-margin-top:86px; }
+  h1,h2,h3,h4{ margin:.2rem 0 .8rem; font-weight:800; color:var(--accent); }
+  h1{ font-size:1.7rem } h2{ font-size:1.35rem } h3{ font-size:1.12rem } h4{ font-size:1.02rem }
+  p,ul,ol{ margin-bottom:1rem; }
+  ul{ list-style-position:inside; }
+
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ padding:.75rem .5rem; border-top:1px solid var(--line); vertical-align:top; text-align:left; }
+  th{ font-weight:700; color:var(--muted); width:100px; }
+  tbody tr:hover{ background:#fffdfc; }
+
+  /* Buttons */
+  .btn{ display:inline-block; padding:.5rem .9rem; border-radius:.6rem; background:var(--accent); color:var(--accent-contrast); box-shadow:var(--shadow); font-weight:700; transition:transform .2s ease, box-shadow .2s ease; }
+  .btn:hover{ transform:translateY(-1px); text-decoration:none; }
+
+  /* Lyrics / Quotes */
+  .lyrics{
+    white-space:pre-wrap; font-family:var(--mono); font-size:.92rem;
+    background:#fffdfc; border:1px solid var(--line); padding:.8rem; border-radius:.5rem; line-height:1.75; color:var(--fg);
+  }
+  blockquote{ margin:1rem 0; padding:.9rem; background:var(--line); border-left:4px solid var(--accent); border-radius:0 .5rem .5rem 0; }
+  .credit-note{ font-size:.9rem; color:var(--muted); background:var(--line); padding:1rem; border-radius:.6rem; margin-top:1rem; }
+
+  footer{ margin:2rem 0; text-align:center; color:var(--muted); font-size:.9rem; }
+
+  /* ===== Minimal Accordion (details/summary) ===== */
+  details.fold{
+    border:1px solid var(--line);
+    border-radius:calc(var(--radius) - 6px);
+    background:var(--card);
+    box-shadow:var(--shadow);
+    margin:.8rem 0;
+  }
+  details.fold[open]{ background: color-mix(in srgb, var(--line) 26%, var(--card)); }
+  summary.fold-head{
+    list-style:none; cursor:pointer; padding:.75rem 1rem;
+    font-weight:700; display:flex; align-items:center; gap:.6rem; color:var(--fg);
+  }
+  summary.fold-head::before{ content:"▸"; transition:transform .18s ease; font-size:.9rem; opacity:.8; }
+  details[open] > summary.fold-head::before{ transform:rotate(90deg); }
+  summary.fold-head::-webkit-details-marker{ display:none; }
+  .fold-body{ padding:.2rem 1rem 1rem; }
+
+  /* Toolbar */
+  .toolbar{ display:flex; gap:.5rem; justify-content:flex-end; margin:.2rem 0 .8rem; }
+</style>
 </head>
 <body>
   <a class="sr-only" href="#main">본문 바로가기</a>
@@ -1219,12 +1271,11 @@ Cuz time is running out
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('section[id]');
-      const navLinks = document.querySelectorAll('.toc-item');
-
-      if (!sections.length || !navLinks.length) return;
-
+  document.addEventListener('DOMContentLoaded', () => {
+    /* ===== 1) TOC 활성화 (원래 기능 유지) ===== */
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.toc-item');
+    if (sections.length && navLinks.length) {
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -1237,11 +1288,71 @@ Cuz time is running out
           }
         });
       }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+      sections.forEach(section => observer.observe(section));
+    }
 
-      sections.forEach(section => {
-        observer.observe(section);
-      });
+    /* ===== 2) 가사/크레딧 자동 접기/펼치기 =====
+       - 기존 마크업 수정不要.
+       - 모든 .lyrics 를 details.fold로 감싸 summary 생성
+       - #lyrics 안의 긴 .note(크레딧 추정)도 접기 처리
+    */
+    const hLabel = (el) => {
+      // 바로 위쪽의 h4>h1 순으로 탐색하여 제목 추출
+      const prev = [...document.querySelectorAll('h4, h3, h2, h1')]
+        .filter(h => h.compareDocumentPosition(el) & Node.DOCUMENT_POSITION_FOLLOWING)
+        .filter(h => h.offsetTop <= el.offsetTop)
+        .pop();
+      return prev ? prev.textContent.trim() : '가사';
+    };
+
+    const wrapInDetails = (el, summaryText) => {
+      if (el.closest('details.fold')) return; // 이미 감싼 경우 skip
+      const det = document.createElement('details');
+      det.className = 'fold';
+      const sum = document.createElement('summary');
+      sum.className = 'fold-head';
+      sum.textContent = summaryText;
+      const body = document.createElement('div');
+      body.className = 'fold-body';
+      el.parentNode.insertBefore(det, el);
+      det.appendChild(sum);
+      det.appendChild(body);
+      body.appendChild(el);
+      return det;
+    };
+
+    // 가사(.lyrics) 자동 래핑
+    document.querySelectorAll('pre.lyrics').forEach((pre, idx) => {
+      const label = hLabel(pre);
+      wrapInDetails(pre, label.replace(/\s+/g,' ').trim());
     });
-  </script>
+
+    // 크레딧(.note) 자동 래핑: #lyrics 섹션 내부의 긴 노트 텍스트
+    const lyricsSection = document.querySelector('#lyrics');
+    if (lyricsSection) {
+      lyricsSection.querySelectorAll('.note, .credit-note, p.note').forEach(note => {
+        const text = note.textContent || '';
+        if (text.length > 300 && !note.closest('details.fold')) {
+          wrapInDetails(note, '크레딧 / 앨범 정보');
+        }
+      });
+
+      // 툴바(모두 펼치기/접기) 주입
+      const toolbar = document.createElement('div');
+      toolbar.className = 'toolbar';
+      toolbar.setAttribute('aria-label','가사/크레딧 보기 제어');
+      toolbar.innerHTML = `
+        <button class="btn" id="expand-all" type="button">모두 펼치기</button>
+        <button class="btn" id="collapse-all" type="button" style="background:var(--accent-2);color:var(--fg)">모두 접기</button>
+      `;
+      const h2 = lyricsSection.querySelector('h2');
+      (h2?.after) ? h2.after(toolbar) : lyricsSection.prepend(toolbar);
+
+      const allDetails = () => Array.from(lyricsSection.querySelectorAll('details.fold'));
+      toolbar.querySelector('#expand-all')?.addEventListener('click', () => allDetails().forEach(d => d.open = true));
+      toolbar.querySelector('#collapse-all')?.addEventListener('click', () => allDetails().forEach(d => d.open = false));
+    }
+  });
+</script>
 </body>
 </html>
