@@ -16,55 +16,56 @@
 
   /* ===== Color System (Inaekkum Library) ===== */
   :root{
-    /* Surfaces */
-    --bg:#FFF9ED;        /* warm paper background */
-    --card:#FFFFFF;      /* content cards */
-    --line:#D9C8A9;      /* subtle borders/dividers */
+  /* Surfaces */
+  --bg:#F9FCFD;        /* 하얀에 가까운 청백색 배경 */
+  --card:#FFFFFF;      /* 카드 영역 */
+  --line:#D7EBEE;      /* 옅은 하늘빛 라인 */
 
-    /* Text */
-    --fg:#222426;        /* primary text */
-    --muted:#8C644D;     /* secondary text/captions */
+  /* Text */
+  --fg:#1C1E1F;        /* 본문 글자 (짙은 회청색) */
+  --muted:#667072;     /* 부가 설명용, 중명도 회색 */
 
-    /* Accents */
-    --accent:#D96236;    /* rust orange */
-    --accent-2:#F4C70F;  /* ochre yellow */
-    --accent-3:#73CFD9;  /* teal */
+  /* Accents */
+  --accent:#73CFD9;    /* 주된 포인트: 틸 블루 */
+  --accent-2:#4AA9BA;  /* 보조 포인트: 청록톤 */
+  --accent-3:#F4C70F;  /* 대비용 노랑 (선택적으로 사용) */
 
-    /* Utility */
-    --highlight:#CDFFF0; /* selection/notice bg */
-    --tone-amber:#A67233;
-    --tone-olive:#8C7737;
+  /* Utility */
+  --highlight:#E7FBFF; /* 텍스트 선택·하이라이트 */
+  --tone-amber:#BFA454; /* 따뜻한 포인트 남기기 */
+  --tone-olive:#8C7737; /* 아카이브 감의 고색조 */
 
-    /* Readability helpers */
-    --accent-contrast:#FFFFFF;
-    --inverse:#FAFAFA;
+  /* Readability */
+  --accent-contrast:#FFFFFF;
+  --inverse:#FAFAFA;
 
-    /* Shape & Shadow */
-    --radius:14px;
-    --shadow:0 6px 18px rgba(34,36,38,.08), 0 2px 6px rgba(34,36,38,.06);
+  /* Shape & Shadow */
+  --radius:14px;
+  --shadow:0 6px 18px rgba(25, 45, 55, .08), 0 2px 6px rgba(25, 45, 55, .05);
 
-    /* Mono stack */
-    --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-  }
+  /* Mono stack */
+  --mono:ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
 
-  /* Dark Theme (optional): <html data-theme="dark"> */
-  [data-theme="dark"]{
-    --bg:#262014;
-    --card:#222426;
-    --line:#594A1D;
-    --fg:#FAFAFA;
-    --muted:#D9C8A9;
+/* 다크모드 (시안빛 유지) */
+[data-theme="dark"]{
+  --bg:#0E1618;
+  --card:#121D21;
+  --line:#1F2E33;
 
-    --accent:#F4C70F;   /* swap: yellow primary in dark */
-    --accent-2:#D96236;
-    --accent-3:#73CFD9;
+  --fg:#EAF6F8;
+  --muted:#9DB6BB;
 
-    --highlight:rgba(205,255,240,.1);
-    --accent-contrast:#222426;
-    --inverse:#FFF9ED;
+  --accent:#73CFD9;
+  --accent-2:#A6E3EA;
+  --accent-3:#F2CD5C;
 
-    --shadow:0 8px 22px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
-  }
+  --highlight:rgba(115,207,217,.15);
+  --accent-contrast:#0E1618;
+  --inverse:#EAF6F8;
+
+  --shadow:0 8px 22px rgba(0,0,0,.35), 0 2px 8px rgba(0,0,0,.25);
+}
 
   /* ===== Base ===== */
   *{ box-sizing:border-box; }
