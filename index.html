@@ -171,50 +171,73 @@
   --logo-color: #73CFD9; /* 로고 색상 */
 }
 
-/* 배경 로고 */
-body {
-  position: relative;
+/* === Inaekkum watermark fix === */
+
+/* 1) 색 변수 정의 (#73CFD9) */
+:root{ --logo-color:#73CFD9; }
+
+/* 2) 파일 경로 점검용(필요시 바꿔주세요)
+   - 같은 폴더면 'inaekkum-logo.png'
+   - 예: /assets/inaekkum-logo.png 로 쓰는 경우 아래 두 줄 모두 경로를 동일하게 바꿔야 함
+*/
+
+/* 3) 기본 설정 */
+html, body { height:100%; }
+body { position: relative; }
+
+/* 4) 마스크 방식(지원 브라우저) */
+@supports (mask-image: url("")) or (-webkit-mask-image: url("")) {
+  body::before {
+    content: "";
+    position: fixed;
+    top: 12vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(900px, 72vw);
+    height: min(900px, 72vw);
+
+    /* PNG 로고를 마스크로, 컬러는 --logo-color 로 채움 */
+    background: var(--logo-color);
+    -webkit-mask-image: url('inaekkum-logo.png');
+    mask-image: url('inaekkum-logo.png');
+    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+    -webkit-mask-position: center; mask-position: center;
+    -webkit-mask-size: contain;    mask-size: contain;
+
+    opacity: .08;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  top: 12vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(900px, 72vw);
-  height: min(900px, 72vw);
+/* 5) 마스크 미지원 브라우저 대비(대체 이미지가 있을 때) */
+@supports not (mask-image: url("")) {
+  body::before{
+    content:"";
+    position: fixed;
+    top: 12vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(900px, 72vw);
+    height: min(900px, 72vw);
 
-  /* 로고를 한 색으로 칠하기 */
-  background: var(--logo-color); /* 채울 색상 */
-  -webkit-mask-image: url('inaekkum-logo.png');
-  mask-image: url('inaekkum-logo.png'); /* PNG 경로 */
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: contain;
-  mask-size: contain;
+    /* 틸 색으로 이미지를 미리 칠해둔 PNG/SVG가 있다면 아래 경로로 교체 */
+    background-image: url('inaekkum-logo-teal.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 
-  opacity: 0.08; /* 투명도 */
-  pointer-events: none;
-  z-index: 0;
+    opacity: .08;
+    pointer-events: none;
+    z-index: 0;
+  }
 }
 
-/* 콘텐츠가 항상 위에 오도록 */
-.wrap,
-header,
-main,
-footer {
+/* 6) 콘텐츠가 로고보다 위에 오도록(겹침 순서 명시) */
+header, main, nav[aria-label="문서 목차"], .card {
   position: relative;
   z-index: 1;
 }
-
-/* 다크모드일 때 조금 더 진하게 */
-[data-theme="dark"] body::before {
-  opacity: 0.10;
-}
-
 </style>
 </head>
 <body>
