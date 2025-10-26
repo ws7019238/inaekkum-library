@@ -222,6 +222,22 @@
   /* 워터마크 뒤로 밀기 */
   header, main, nav[aria-label="문서 목차"], .card{ position:relative; z-index:1; }
    
+   .video-wrap {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 비율 유지 */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);
+  margin: 1rem 0;
+}
+.video-wrap iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>
   
 </head>
@@ -246,6 +262,7 @@
           <a class="toc-item" href="#about">개요</a>
           <a class="toc-item" href="#members">멤버</a>
           <a class="toc-item" href="#tour">공연 일정</a>
+          <a class="toc-item" href="#news">최신 소식</a>
           <a class="toc-item" href="#discography">디스코그래피</a>
           <a class="toc-item" href="#lyrics">가사</a>
           <a class="toc-item" href="#interview">인터뷰</a>
@@ -337,7 +354,29 @@
     data-bit-logo-position="bottomRight"
   ></a>
 </section>
+<section id="news" class="card">
+  <h2>최신 소식</h2>
+  <p>이내꿈(inaekkum)의 최신 영상과 업데이트를 확인하세요!</p>
 
+  <!-- 🔹 유튜브 영상 임베드 -->
+  <div class="video-wrap">
+    <iframe 
+      width="100%" 
+      height="315"
+      src="https://youtu.be/1V911fs7jho?si=X1PMnFHYtB4hYIeI" 
+      title="inaekkum 최신 영상"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <p>
+    <a class="btn" href="https://youtube.com/@inaekkum" target="_blank" rel="noopener">
+      🔗 유튜브 채널 바로가기
+    </a>
+  </p>
+</section>
         <section id="discography" class="card">
           <h2>디스코그래피</h2>
           <table>
