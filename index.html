@@ -187,27 +187,30 @@ body { position: relative; }
 
 /* 4) 마스크 방식(지원 브라우저) */
 @supports (mask-image: url("")) or (-webkit-mask-image: url("")) {
-  body::before {
-    content: "";
-    position: fixed;
-    top: 12vh;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(900px, 72vw);
-    height: min(900px, 72vw);
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 정확히 중앙 배치 */
+  width: 60vw;    /* 화면 너비의 60% */
+  height: 60vw;   /* 정사각형 비율 유지 */
 
-    /* PNG 로고를 마스크로, 컬러는 --logo-color 로 채움 */
-    background: var(--logo-color);
-    -webkit-mask-image: url('inaekkum-logo.png');
-    mask-image: url('inaekkum-logo.png');
-    -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-    -webkit-mask-position: center; mask-position: center;
-    -webkit-mask-size: contain;    mask-size: contain;
+  /* 로고 색상 및 마스크 설정 */
+  background: var(--logo-color);
+  -webkit-mask-image: url('inaekkum-logo.png');
+  mask-image: url('inaekkum-logo.png');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
 
-    opacity: .08;
-    pointer-events: none;
-    z-index: 0;
-  }
+  opacity: 0.08; /* 투명도 (조절 가능) */
+  pointer-events: none;
+  z-index: 0;
+}
 }
 
 /* 5) 마스크 미지원 브라우저 대비(대체 이미지가 있을 때) */
