@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>이내꿈 서고 · inaekkum Archive</title>
+  <meta name="description" content="이내꿈(inaekkum) 밴드의 공식 텍스트 아카이브: 개요, 멤버, 디스코그래피, 가사 전문, 인터뷰, 창작 노트." />
+  <meta property="og:title" content="이내꿈 서고 (inaekkum Archive)" />
+  <meta property="og:description" content="밴드 이내꿈의 모든 것을 담은 공식 텍스트 아카이브입니다." />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+
+  <style>
+    /* ===== Ingest UI (Hidden by default) ===== */
+    #ingest { display: none !important; }
+
+    /* ===== Color System ===== */
+    :root {
+      --bg: #ffdbcb;
+      --fg: #413a37;
+      --muted: #503528;
+      --line: #ffede6;
+      --accent: #672800;
+      --card: #fff8f6;
+      --radius: 14px;
+      --shadow: 0 6px 18px rgba(80, 53, 40, .08), 0 2px 6px rgba(80, 53, 40, .06);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font: 16px/1.7 system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Apple SD Gothic Neo, Arial, sans-serif;
+      -webkit-text-size-adjust: 100%;
+      font-weight: 400;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 1rem; }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255, 219, 203, 0.8);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: saturate(1.1) blur(4px);
+    }
+    .top { display: flex; justify-content: space-between; align-items: center; gap: .8rem; padding: .5rem 0; }
+    .brand { font-weight: 800; font-size: 1.1rem; color: var(--accent); }
+    .note { color: var(--muted); font-size: .9rem; }
+
+    main { display: grid; grid-template-columns: 260px 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; }
+      nav[aria-label="문서 목차"] { position: static; }
+    }
+
+    /* ===== Navigation / TOC ===== */
+    nav[aria-label="문서 목차"] {
+      position: sticky; top: 70px; align-self: start;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .navbox { padding: .9rem; }
+    .navbox h2 { margin: .15rem 0 .6rem; font-size: .9rem; color: var(--muted); letter-spacing: 0.05em; }
+    .toc-item {
+      display: block; padding: .5rem .6rem; border-radius: .6rem; font-weight: 700; color: var(--fg);
+      transition: background .2s ease, color .2s ease;
+    }
+    .toc-item:hover { background: var(--line); }
+    .toc-item[aria-current="true"] {
+      background: var(--accent); color: var(--card);
+    }
+
+    /* ===== Content Cards & Elements ===== */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.5rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.5rem;
+    }
+    section[id] { scroll-margin-top: 86px; }
+    h1, h2, h3, h4 { margin: .2rem 0 1rem; font-weight: 800; color: var(--accent); }
+    h1 { font-size: 1.8rem; } h2 { font-size: 1.5rem; } h3 { font-size: 1.2rem; } h4 { font-size: 1.1rem; }
+    p, ul, ol { margin-bottom: 1rem; }
+    ul { list-style-position: inside; }
+    blockquote { margin: 1rem 0; padding: 1rem; background: var(--line); border-left: 4px solid var(--accent); border-radius: 0 .6rem .6rem 0; }
+    
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .75rem .5rem; border-top: 1px solid var(--line); vertical-align: top; text-align: left; }
+    th { font-weight: 700; color: var(--muted); width: 100px; }
+    tbody tr:hover { background: #fffdfc; }
+
+    .btn {
+      display: inline-block; padding: .6rem 1rem; border-radius: .7rem;
+      background: var(--accent); color: var(--card);
+      box-shadow: var(--shadow); font-weight: 700;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(80, 53, 40, .12); text-decoration: none; }
+
+    .lyrics {
+      white-space: pre-wrap; font-family: var(--mono); font-size: .95rem;
+      background: #fffdfc; border: 1px solid var(--line); padding: 1rem; border-radius: .6rem; color: var(--fg);
+      line-height: 1.8;
+    }
+    .credit-note { font-size: 0.9rem; color: var(--muted); background: var(--line); padding: 1rem; border-radius: .6rem; margin-top: 1rem; }
+
+    footer { margin: 2rem 0; text-align: center; color: var(--muted); font-size: .9rem; }
+  </style>
+</head>
+<body>
+  <a class="sr-only" href="#main">본문 바로가기</a>
+
+  <header>
+    <div class="wrap top">
+      <div>
+        <div class="brand">이내꿈 서고 · inaekkum Archive</div>
+        <div class="note">밴드 이내꿈의 공식 텍스트 아카이브</div>
+      </div>
+      <div class="note">v.2025.11</div>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <main id="main">
+      <nav aria-label="문서 목차">
+        <div class="navbox" id="toc">
+          <h2>INDEX</h2>
+          <a class="toc-item" href="#about">개요</a>
+          <a class="toc-item" href="#members">멤버</a>
+          <a class="toc-item" href="#discography">디스코그래피</a>
+          <a class="toc-item" href="#lyrics">가사</a>
+          <a class="toc-item" href="#interview">인터뷰</a>
+          <a class="toc-item" href="#philosophy">창작 노트</a>
+          <a class="toc-item" href="#guide">팬 가이드</a>
+          <a class="toc-item" href="#links">외부 링크</a>
+        </div>
+      </nav>
+
+      <div class="content">
+        <section id="ingest" class="card">
+          <h2>Ingest Interface</h2>
+          <p>CSV/텍스트 요약 UI.</p>
+          <textarea style="width:100%; min-height:100px; border:1px solid var(--line); border-radius: .6rem; padding:.5rem; font-family:var(--mono);" placeholder="Paste text here..."></textarea>
+          <button class="btn" style="margin-top:.5rem;">Summarize</button>
+        </section>
+
+        <section id="about" class="card">
+          <h2>개요</h2>
+          <p>이내꿈(inaekkum)은 대구를 기반으로 한 3인조 포스트 록 밴드로, 상실과 회복, 진심과 관계에 관한 이야기를 음악으로 기록한다. 신스 록, 드림 팝의 감성을 바탕으로 섬세하고 서정적인 사운드를 선보이며, 불안 속에서도 한 걸음을 내딛는 사람들에게 상냥한 안부를 전한다.</p>
+          <p>2020년 ‘이리와내꿈에태워줄게’라는 이름으로 결성, 이후 ‘이내꿈’으로 개명하여 새로운 출발을 다짐했다. 2025년 3월 정규 1집 『Organic Tender』를 발매하며 본격적인 전국 활동에 나섰고, 앨범은 멜론 ‘트랙제로 추천곡’에 선정되는 등 국내외 평단의 주목을 받았다. D-Rookie Festa 대상 수상 등 유의미한 성과를 거두며 성장하고 있다.</p>
+          <h4>핵심 정보</h4>
+          <table>
+            <tbody>
+              <tr><th>장르</th><td>포스트 록, 신스 록, 드림 팝</td></tr>
+              <tr><th>거점</th><td>대한민국 대구</td></tr>
+              <tr><th>주요 주제</th><td>상실, 회복, 관계, 진심</td></tr>
+              <tr><th>대표곡</th><td>Noise, Karman Line</td></tr>
+              <tr><th>영문명</th><td>inaekkum (formerly Daydreamers)</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="members" class="card">
+          <h2>멤버</h2>
+          <table>
+            <tbody>
+              <tr><th>민우석</th><td>보컬, 베이스, 작사/작곡, 프로듀싱</td></tr>
+              <tr><th>김태양</th><td>기타, 톤메이킹, 편곡</td></tr>
+              <tr><th>최원민</th><td>키보드, 사운드 밸런스, 팀 조율</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="discography" class="card">
+          <h2>디스코그래피</h2>
+          <table>
+            <thead>
+              <tr>
+                <th style="width:60px;">연도</th>
+                <th>타이틀</th>
+                <th>형태</th>
+                <th>비고</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2025</td>
+                <td><em>Organic Tender</em></td>
+                <td>정규 1집</td>
+                <td>타이틀곡: Noise, Karman Line</td>
+              </tr>
+              <tr>
+                <td>2025</td>
+                <td>Single Cup</td>
+                <td>싱글</td>
+                <td>2025년 11월 19일 발매</td>
+              </tr>
+              <tr>
+                <td>2024</td>
+                <td>4월과 11월</td>
+                <td>컴필레이션</td>
+                <td>'나비가 된 불꽃' 앨범 참여</td>
+              </tr>
+              <tr>
+                <td>2023</td>
+                <td>꽃길</td>
+                <td>컴필레이션</td>
+                <td>'대구인디음악연대기2022' 앨범 참여</td>
+              </tr>
+              <tr>
+                <td>2022</td>
+                <td><em>발현 (Emergence)</em></td>
+                <td>EP</td>
+                <td>'이리와 내 꿈에 태워줄게' 명의</td>
+              </tr>
+               <tr>
+                <td>-</td>
+                <td>영화처럼</td>
+                <td>싱글</td>
+                <td>'이리와 내 꿈에 태워줄게' 명의</td>
+              </tr>
+              <tr>
+                <td>2021</td>
+                <td>용가리도 하늘을 날고 싶어</td>
+                <td>더블 싱글</td>
+                <td>데뷔 싱글</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="lyrics" class="card">
+          <h2>가사 전문</h2>
+
+          <h4>『Organic Tender』 (정규 1집, 2025)</h4>
+          <pre class="lyrics">1. Before Sunrise
+
+Okay, I see
+I'm lookin' at republic
+If you don't talk to me, that's okay
+Oh babe, I mean
+It's difficult to define the lane
+Seeing their double faces, freaks you out
+ 
+Old men, please don't fight
+If you know your place and might
+Old men, please don't steal
+We're watching you
+
+Old men, please don't shout
+If you don't want to be shot
+Or maybe that's what you want
+It's in your hands
+
+Yeah, my fault too
+I'm lookin't at democracy
+If our movement ceases, Gen A will judge us all.
+Baby, your Huggies
+Black as a coal
+like an anarchist, bro
+Even you have a color, tho
+
+Old men, please don't fight
+If you know your place and might
+Old men, please don't steal
+We're watching you
+
+Old men, please don't shout
+If you don't want to be shot
+Or maybe that's what you want
+It's in your hands
+How could I
+
+I don't care
+I don't care
+I don't care
+I don't care
+I don't care
+Just take me CBGB
+
+Old men, please don't fight
+If you know your place and might
+Old men, please don't steal
+We're watching you
+
+Old men, please don't shout
+If you don't want to be shot
+Or maybe that's what you want
+It's in your hands
+
+Oh Yeah
+HAA A A A
+HAA A A A
+HAA A A A
+HAA A A A
+HAA A A A
+HAA A A A
+
+2. Noise
+
+노이즈만 들릴 때
+뭐라도 말해야 했어
+하고 싶은 말보단
+해야 할 말이 많았어
+실컷 화를 내다가
+끝엔 할 수 있다며
+어설프게 끌어안고
+또다시 조용해지고
+
+I could have run away
+(always remember these days)
+Just stay close
+(no matter what we become)
+You could have run away
+(always remember these days)
+We tryin’, we tryin’
+
+노이즈만 들릴 때
+뭐라도 말해야 했어
+하고 싶은 말보단
+해야 할 말이 많았어
+아무 근거도 없이
+잘 될 거라 떠벌렸어
+바보 같은 말들을
+바보처럼 믿었지
+그래도 이 순간이 즐거웠어
+아무리 생각해 봐도
+생각해 봐도
+
+I could have run away
+(always remember these days)
+Just stay close
+(no matter what we become)
+You could have run away
+(always remember these days)
+We tryin’, we tryin’
+
+I could have run away
+(always remember these days)
+Just stay close
+(no matter what we become)
+You could have run away
+(always remember these days)
+We tryin’, we tryin’
+
+3. Karman Line
+
+Darling, This is your time
+I'm rubbing rhymes
+Tender is the night for Sleeping Beauty
+Who will dry your eyes when you leave here
+It could take awhile
+until I get to you
+
+Tender is the wave for an endless night
+There's a home beyond the light
+Rollin, wonders
+
+So, darling this is your time
+It's Your time
+Hopeless singing will change with your wag
+It's now or never
+Darling this is your time
+It's Your time
+Darling, you could be a star
+on a new beginning, I wonder.
+
+Darling, now is the time
+you're free
+It could take awhile
+until I get to you babe
+
+4. Light
+
+너의 빛이 되어줄게
+우주의 별이 눈 감고
+세상이 외로워 보일 때
+너의 태양이 되어줄게
+
+너의 별이 되어줄게
+은은한 호롱불 반짝이듯
+세상의 제일 자그마한
+속삭임이 되어도 좋아
+
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+
+나의 별이 되어줄래
+아침이 나를 가려도
+소원을 빌고 싶어지면
+별의 티끌이 되어줄게
+
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+기꺼이 될게
+
+내 영혼이 그대와 맞닿아 서 있다면
+내 우주와 그대의 우주가 마주한 것
+내 영혼이 그대와 맞닿아 서 있다면
+내 우주와 그대의 우주가 마주한 것
+
+5. Breath
+
+When your breath stops, will I cry
+The thoughts I had were all an error
+Thank you for being ordinary
+If I'm born again, I would be a planarian
+In our world, I can be myself
+Our cozy home, beneath the pines
+I wish, I wish, I wish
+it was just you, me and my guitar
+        
+But dreams are pain,
+We're still wandering
+For an unknown sailor
+we carve stars
+'til we shine bright
+        
+Just a single spark to flee
+Haven't we burnt enough, can't you see
+Every inhale, every exhale
+My sins, I know, never forgotten I recall
+I want to be reborn, Planetarium
+For every meeting, a time to part
+love, a daunting art
+Even after breath has ceased, the sound of waves will still
+        
+But dreams are pain
+We're still wandering
+We glide and float
+caressing the rest of our time
+Though dreams are limited
+We still feel breaths
+'til we become the earth and sky
+'til we shine
+'til we shine bright
+
+6. Sophie
+
+포기하고 싶다던가
+그렇게 말하진 마
+가고 싶은 데가 많았었잖아
+
+상처가 크게 느껴져
+눈물도 멎기 전에
+함께 도망가자, 저 멀리
+
+코타키나발루였나
+일기장에 적힌 곳
+우산에 하이라이트 그려놨지
+
+비와 함께 춤을 추면
+별들도 거들지도
+슬픔도 가라앉게 해
+        
+사랑을 말할 때
+네 모습이 떠올라
+아픔을 기억해
+Sophie,
+
+사랑을 말할 때
+네 웃음이 떠올라
+말없이 안기는 그대
+        
+함께여서 둘이 될 때
+뭣보다 겁이 안 나
+나조차도 내가 싫을 땐 더욱더
+        
+사랑을 말할 때
+네 모습이 떠올라
+아픔을 기억해
+Sophie, 넌 나의 별이야
+사랑을 말할 때
+네 말이 또 떠올라
+미칠 듯 뜨거운 마음
+
+7. Looove
+
+잃어버렸어
+너를 놓쳤어
+다시 만났어
+너를 찾을 때
+숨소릴 들었어
+
+사랑 어딜 도망가
+떠나 열린 결말과 나
+
+지금이라도 말하면
+솔직히 두려워
+평생 너를 안는 게
+그런 말 하다 널 보면 다시 차올라
+손에 힘이 들어간다
+
+사랑 어느새 우리
+종말과 탄생의 신화를
+사랑 약속된 만남
+떠나 열린 결말과 너
+도망쳐도 만나
+
+사랑 어느새 우리는
+종말과 탄생의 신화를
+사랑 약속된 결말
+떠나 선악과 만남
+
+사랑 사랑 사랑 사랑
+사랑 사랑 사랑 사랑
+사랑 사랑 사랑 사랑
+사랑 사랑 사랑 사랑
+
+8. Sisley
+
+지금 네가 앉았던 그 자리에
+내가 앉아 있어
+아직 어색해 늘
+있다 없으니 초라해
+
+I don't want to be
+I'm looking for that night
+
+미운 말은 모두 다 내 거였지
+후회하진 않지만
+사실 너를 비춰 나를 본 거야
+죄 많지
+
+파도처럼 춤추며 별을 따다가 잠겼네
+바보처럼 바라봐 함께 웃다가 떠났지
+
+I don't want to be
+Please
+I don't want to be
+I'm looking for your light
+
+So, I'll be your night
+I'll be your night
+I'll be your night
+I'll be your night
+I'm looking for your light
+
+I'll be your night
+I'll be your night
+I'll be your night
+I'll be your night
+I'm looking for your light</pre>
+          <div class="credit-note">
+            <p><strong>앨범 노트:</strong> 「Karman Line」은 세상을 떠난 반려견을 위한 헌정곡이며, 「Sisley」는 탈퇴한 베이시스트를 향한 소회를 담았다. 프로듀서 구슬한(보수동쿨러)의 조언으로 대부분의 곡을 새로 작업했으며, 이를 통해 밴드의 음악적 세계가 크게 확장되었다.</p>
+            <blockquote>“솔직하고 투명한 감성이 매력적이었던 음악은, 보다 넓은 공간으로 이동해 각각의 연주를 층층이 쌓아올리며 다채로운 세계를 완성한다. ... 이내꿈의 변화는 그 두가지를 모두 얻을 수 있는 반가운 변화였다.”<br>- 음악평론가 이정희</blockquote>
+            <blockquote>“멜로디에는 설득력이 있고, 편곡에는 자신감이 담겨있다. 이 자신감은 밴드 스스로 굳건히 가진 확신이라기보다 밴드와 씬 사이에서 만들어진 ‘함께’라는 느낌이 강하다. 더 자주, 많이 거론되어야 할 밴드를 만난 기분이다.”<br>- 음악평론가 조일동</blockquote>
+          </div>
+
+          <h4 style="margin-top:2rem;">『발현 (EP)』 (2022)</h4>
+          <pre class="lyrics">Track 02. Time Train
+
+아직은 어렸던 그때의 나에게
+세상은 너무나 어두운 밤이야
+하늘에 수놓은 별들을 이어서
+아무도 모르는 주문을 그리고 있어
+...
+
+Track 03. will
+
+보고 싶다는 너의 말에
+흩날렸어 나를 저 멀리
+어디든 나를 찾아봐도
+옅은 냄새만 풍길 거야
+...
+
+Track 04. 너는 내게 달빛
+
+나는 너를 사랑하네
+코 고는 모습 전부다
+아직도 그 미소를 다 잊지 못했어
+...
+
+Track 05. 눈송이
+
+거리의 사람들 손을 잡고
+내리는 눈송이 바라보며
+함께한다는 것 되새기며
+오늘 겨울을 맞이한다
+...
+
+Track 06. 코로나 블루
+
+바람이 차갑게 내 맘을 적시던
+그날 마을은 적적했어요
+사람들 거리가 멀게만 보이던
+이 순간이 지나갔으면 해요
+...</pre>
+          <div class="credit-note">
+            <p><strong>앨범 노트:</strong> '이리와 내 꿈에 태워줄게' 명의로 발매된 두 번째 EP. 꿈과 현실, 두려움과 희망 사이의 감정들을 포크와 모던 록의 정서로 담아냈다. (Track 1 'TSR'은 연주곡)</p>
+            <blockquote>“속이 투명하게 비쳐서 잠깐 손을 대거나 똑바로 바라보는 것만으로 내 검은 속까지 다 들켜버릴 것 같은 그런 음악. ... 서툴러 오히려 뚜렷한 확신이 투명한 빛을 낸다. 어쩐지 부끄러울 정도로.”<br>- 음악평론가 김윤하</blockquote>
+          </div>
+          
+          <h4 style="margin-top:2rem;">기타 싱글 및 참여곡</h4>
+          <pre class="lyrics">Single Cup (2025)
+
+woke up a little too late this morning, my bad
+오늘 아침에 너무 늦게 일어났어, 내 잘못이야
+​
+But I won't blame myself cuz you know, my day
+하지만 난 나를 탓하지 않을 거야 왜냐면 알잖아 내가 어떤 시간을 보내고 있는지
+...
+Finding joy in dumb things, just to breathe
+사랑스럽게 사소한 것들에서 기쁨을 찾아, 그저 살아가기 위해
+...
+
+용가리도 하늘을 날고 싶어 (2021)
+
+애써 괜찮았어 두고 온 게 참 많아
+가을은 떠났어 햇살은 사라져가
+영원한 건 없어 기억할 게 참 많아
+그래서 남겼어 눈물이 담긴 글들을
+...
+
+영화처럼
+
+아무것도 손쓸 수 없는 시간에 잊어버린 추억은 갈피를 잃고
+눈물로 씻을 수 없는 이별을 머금고 바다를 떠도는 나와 당신
+...</pre>
+        </section>
+
+        <section id="interview" class="card">
+          <h2>인터뷰 요약</h2>
+          <p>밴드명 ‘이리와 내 꿈에 태워줄게’는 프로게이머 ‘몽상가(강민)’의 팬픽 문장에서 영감을 얻었으며, 창의성과 진심을 담은 선언이었다. 팬들이 붙여준 약칭 ‘이내꿈’은 “곧, 가까이에 있는 꿈”이라는 의미를 더하며 현재의 이름이 되었다.</p>
+          <p>이들은 “우리 같은 사람들도 이룰 수 있다면, 당신도 할 수 있다”는 메시지를 통해 지친 사람들에게 현실적인 용기와 공감을 전하고자 한다. 대구를 ‘집’과 같은 공간으로 여기며, 지역 씬을 가꾸는 주체로서의 정체성을 중요하게 생각한다.</p>
+          <blockquote>“대구는 집 같아요. 조금 불편하지만 따뜻하고, 예술가들이 서로에게 힘을 주는 곳이에요. 수도권으로 인재가 빠져나가도, 우린 이 도시를 가꾸는 사람이고 싶어요.”<br>- 민우석</blockquote>
+          <p>D-Rookie Festa 대상 수상은 “우린 할 수 있다”는 확신을 심어준 중요한 순간이었으며, 멤버들은 서로의 다름에서 영감을 얻고, 관객과의 소통을 활동의 가장 큰 원동력으로 꼽는다.</p>
+          
+          <h4>죽기 전에 마지막으로 듣고 싶은 노래</h4>
+          <ul>
+            <li><strong>민우석:</strong> Chet Atkins – 「I Still Can’t Say Goodbye」 — “떠나간 사람을 위해 마지막으로 부르고 싶어요.”</li>
+            <li><strong>김태양:</strong> 쏜애플 – 「이유」 — “모두가 외로움을 느낀다는 걸 표현한 곡이에요.”</li>
+            <li><strong>최원민:</strong> 아이유 – 「무릎」 — “편안히 잠들 수 있는 노래죠.”</li>
+            <li><strong>최성욱(前 멤버):</strong> 비투비 – 「괜찮아요」 — “내 삶을 돌아보며 ‘괜찮았다’고 느끼고 싶어요.”</li>
+          </ul>
+        </section>
+
+        <section id="philosophy" class="card">
+          <h2>창작 노트 및 철학</h2>
+          <p>이내꿈의 창작 과정은 내면의 기록과 성찰에서 출발한다. “애도의 시간은 끝나지 않는다”는 문장은 무대와 앨범을 관통하는 정서적 기준점이 되며, 단정한 문장과 격정적인 멜로디의 대비를 통해 감정의 깊이를 더한다.</p>
+          <p>이들은 “레시피를 따르지 말고, 레시피를 만든다”는 철학 아래 외부의 유행보다 자율성과 진심을 우선시한다. 또한 공공 지원 사업을 “세금이 맺힌 사업”이라 표현하며, 단순한 경험이 아닌 책임감 있는 태도로 무대를 대한다. 이러한 윤리 의식은 음악에도 반영되어, 기교보다 정직한 표현을 중시하는 경향으로 나타난다.</p>
+          <blockquote>“축복은 축복이고, 병든 것은 병든 것.”</blockquote>
+          <p>위 문장은 정신적 건강을 ‘근성’으로 덮지 않겠다는 선언으로, 창작 과정에서 겪는 감정의 진폭을 미화 없이 솔직하게 마주하려는 태도를 보여준다. 이들은 시, 일기, 가사의 경계를 넘나들며 기록하고, 고독을 창작의 에너지로 승화시킨다.</p>
+        </section>
+
+        <section id="guide" class="card">
+          <h2>팬을 위한 가이드</h2>
+          <p><strong>공연 관람:</strong> 몰입이 필요한 곡을 연주할 때에는 정숙한 분위기에서 함께 감정선에 집중해 주시면 공연을 더욱 깊이 즐길 수 있습니다.</p>
+          <p><strong>참여와 응원:</strong> 공연 후기, 인상 깊었던 사진, 마음에 남은 가사 구절을 SNS나 블로그에 공유하는 것이 팀에게 실질적인 힘이 됩니다. 멤버들은 팬들의 기록을 소중히 찾아보곤 합니다.</p>
+          <p><strong>연락 및 제안:</strong> 이메일 제안 시 발신처, 목적, 역할, 일정을 명확히 기재해 주시면 스팸 필터링을 거쳐 응답률이 높아집니다.</p>
+        </section>
+
+        <section id="links" class="card">
+          <h2>외부 링크</h2>
+          <div style="display:flex; flex-wrap:wrap; gap:.6rem;">
+            <a class="btn" href="https://www.instagram.com/inaekkum_official" target="_blank" rel="noopener">Instagram</a>
+            <a class="btn" href="https://youtube.com/@inaekkum" target="_blank" rel="noopener">YouTube</a>
+            <a class="btn" href="https://inaekkum.bandcamp.com/" target="_blank" rel="noopener">Bandcamp</a>
+            <a class="btn" href="https://blog.naver.com/inaekkum" target="_blank" rel="noopener">Naver Blog</a>
+            <a class="btn" href="https://www.melon.com/artist/timeline.htm?artistId=2919607" target="_blank" rel="noopener">Melon</a>
+            <a class="btn" href="https://open.kakao.com/o/ghAOuSTf" target="_blank" rel="noopener">팬 소통방</a>
+          </div>
+        </section>
+
+        <footer>
+          <p class="note">© inaekkum. All rights reserved. Text Archive v.2025.11.</p>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.toc-item');
+
+      if (!sections.length || !navLinks.length) return;
+
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+              link.removeAttribute('aria-current');
+              if (link.getAttribute('href') === `#${entry.target.id}`) {
+                link.setAttribute('aria-current', 'true');
+              }
+            });
+          }
+        });
+      }, { rootMargin: '-50% 0px -50% 0px', threshold: 0 });
+
+      sections.forEach(section => {
+        observer.observe(section);
+      });
+    });
+  </script>
+</body>
+</html>
